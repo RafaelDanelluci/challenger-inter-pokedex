@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import Text from '../../components/Text';
 import api from '../../services/api';
+import { Box, Divisao } from './styles';
 
 function Dashboard() {
   const [pokemon, setPokemon] = useState([]);
 
   useEffect(() => {
     async function getItems() {
-      const { data } = await api.get('/pokemon');
+      const { data } = await api.get('pokemon');
 
       const resp = await Promise.all(data.results.map((item) => api.get(item.url)));
 
@@ -25,11 +26,15 @@ function Dashboard() {
       <Text>Search for Pokémon by name or using National Pokédex number</Text>
       {
         pokemon.length > 0 && pokemon.map((item) => (
-          <div key={item.id}>
-            {item.name}
+          <Divisao key={item.id}>
+            <Box>
+              <p>#{item.id}</p>
 
-            <img src={item.sprites.front_default} alt={item.name} />
-          </div>
+              {item.name}
+
+              <img src={item.sprites.front_default} alt={item.name} />
+            </Box>
+          </Divisao>
         ))
       }
     </div>
