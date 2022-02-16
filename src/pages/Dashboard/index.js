@@ -50,7 +50,9 @@ function Dashboard() {
           </Divisao>
         ))
       }
-      <button type="button" onClick={() => getMore()}>LOAD MORE</button>
+      <div>
+        <button type="button" onClick={() => getMore()}>LOAD MORE</button>
+      </div>
     </div>
   );
 }
