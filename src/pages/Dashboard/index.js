@@ -5,6 +5,19 @@ import { Box, Divisao } from './styles';
 
 function Dashboard() {
   const [pokemon, setPokemon] = useState([]);
+  const [loadMore, setLoadMore] = useState('pokemon');
+
+  const getMore = async () => {
+    const { data } = await api.get(loadMore);
+    const resp = await data.next;
+
+    setLoadMore(resp);
+
+    const morePoke = await Promise.all(data.results.map((item) => api.get(item.url)));
+
+    const formatMore = morePoke.map((req) => req.data);
+    setPokemon(formatMore);
+  };
 
   useEffect(() => {
     async function getItems() {
@@ -37,6 +50,7 @@ function Dashboard() {
           </Divisao>
         ))
       }
+      <button type="button" onClick={() => getMore()}>LOAD MORE</button>
     </div>
   );
 }
